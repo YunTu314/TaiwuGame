@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { useLayoutStore } from './stores/layout'
-import LeftBrowserPane from './layout/LeftBrowserPane.vue'
+import LeftBrowserPane from './layout/index.vue'
 
-// 引入左下角可能用到的组件 (根据实际情况调整)
-// import LogPanel from './components/left/LogPanel.vue' 
-// import EnemyInfo from './components/left/EnemyInfo.vue'
+// 使用异步组件引入，优化性能
+const LogPanel = defineAsyncComponent(() => import('./components/left/LogPanel.vue'))
+const EnemyInfo = defineAsyncComponent(() => import('./components/left/EnemyInfo.vue'))
 
-// 这里使用 markRaw 或 defineAsyncComponent 来引用组件会更好，这里简化处理
-import { defineAsyncComponent } from 'vue'
-const LogPanel = defineAsyncComponent(() => import('./components/left/LogPanel.vue')) 
-// 如果没有 LogPanel.vue 请确保创建一个占位文件，否则会报错
+// ✅ 核心修复：建立组件映射表，把 store 里的字符串映射为真实组件
+const componentMap: Record<string, any> = {
+  'LogPanel': LogPanel,
+  'EnemyInfo': EnemyInfo
+}
 
 const layoutStore = useLayoutStore()
 
@@ -49,7 +50,7 @@ const handleAddTab = () => {
             <div class="panel-body">
               <component 
                 v-if="layoutStore.leftBottomComponent"
-                :is="layoutStore.leftBottomComponent === 'LogPanel' ? LogPanel : null" 
+                :is="componentMap[layoutStore.leftBottomComponent] || null" 
                 v-bind="layoutStore.leftBottomProps" 
               />
               <div v-else style="color: #666; padding: 20px;">等待指令...</div>
