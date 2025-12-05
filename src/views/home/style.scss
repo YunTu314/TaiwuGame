@@ -1,0 +1,88 @@
+/* 为了让 splitpanes 正常工作，高度必须明确 */
+.home-split-container {
+  height: calc(100vh - 60px); /* 减去头部 Header 的高度 */
+  width: 100%;
+  
+  /* 自定义分割条样式 */
+  :deep(.splitpanes__splitter) {
+    background-color: #333;
+    border-left: 1px solid #444;
+    border-right: 1px solid #444;
+    width: 6px;
+    cursor: col-resize;
+    &:hover {
+      background-color: #409eff;
+    }
+  }
+}
+
+.left-panel {
+  background-color: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  /* 这种 Tab 样式模仿浏览器 */
+  .browser-tabs {
+    background: #222;
+    :deep(.el-tabs__header) {
+      margin: 0;
+      background: #111;
+      border-bottom: 1px solid #333;
+    }
+    :deep(.el-tabs__item) {
+      color: #aaa;
+      &.is-active {
+        color: #fff;
+        background: #2a2a2a;
+        border-bottom-color: #2a2a2a;
+      }
+    }
+  }
+
+  .tab-content-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    color: #ddd;
+  }
+}
+
+.right-panel {
+  background-color: #252525;
+  height: 100%;
+  position: relative; /* 关键：为了绝对定位四个角的按钮 */
+  border-left: 2px solid #000;
+
+  .panel-center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #666;
+    font-size: 14px;
+  }
+
+  /* 四角按钮通用样式 */
+  .corner-btn {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    
+    .el-button {
+      width: 100%;
+      height: 100%;
+      border-radius: 0; /* 方形按钮更有机械感 */
+    }
+  }
+
+  /* 定位 */
+  .pos-tl { top: 0; left: 0; }
+  .pos-tr { top: 0; right: 0; }
+  .pos-bl { bottom: 0; left: 0; }
+  .pos-br { bottom: 0; right: 0; }
+}

@@ -1,0 +1,39 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* 禁止出现浏览器级别的滚动条 */
+  background-color: #000;
+  font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+/* 覆盖 splitpanes 的默认样式，使其更符合暗黑游戏风 */
+.splitpanes {
+  background-color: #000;
+}
+
+.splitpanes__splitter {
+  background-color: #1f1f1f !important;
+  border: 1px solid #333 !important;
+  box-sizing: border-box;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* 垂直分割条宽度 */
+.splitpanes--vertical > .splitpanes__splitter {
+  width: 8px !important;
+  cursor: col-resize;
+}
+
+/* 水平分割条高度 */
+.splitpanes--horizontal > .splitpanes__splitter {
+  height: 8px !important;
+  cursor: row-resize;
+}
